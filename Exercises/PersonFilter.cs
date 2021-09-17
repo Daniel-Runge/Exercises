@@ -12,44 +12,44 @@ namespace Exercises
 
         public virtual List<Person> Filter(in List<Person> plist)
         {
-            var result = new List<Person>();
+            var people = new List<Person>();
             foreach (var person in plist)
             {
                 if (FilterPredicate(person))
                 {
-                    result.Add(person);
+                    people.Add(person);
                 }
             }
-            return result;
+            return people;
         }
     }
     public class NameFilter : PersonFilter
     {
-        private readonly string _name;
+        private readonly string name;
 
         public NameFilter(string name)
         {
-            _name = name;
+            this.name = name;
         }
         public override bool FilterPredicate(Person person)
         {
-            return _name == person.Name;
+            return name == person.Name;
         }
     }
 
     public class AgeFilter : PersonFilter
     {
-        private readonly int _minimumAge;
-        private readonly int _maximumAge;
+        private readonly int minimumAge;
+        private readonly int maximumAge;
 
         public AgeFilter(int minimumAge, int maximumAge)
         {
-            _minimumAge = minimumAge;
-            _maximumAge = maximumAge;
+            this.minimumAge = minimumAge;
+            this.maximumAge = maximumAge;
         }
         public override bool FilterPredicate(Person person)
         {
-            return person.Age <= _maximumAge && person.Age >= _minimumAge;
+            return person.Age <= maximumAge && person.Age >= minimumAge;
         }
     }
 
@@ -57,78 +57,81 @@ namespace Exercises
     {
         public override bool FilterPredicate(Person person)
         {
-
-            return person is Employee;
+            return person is Employee; 
         }
     }
 
     public class NotFilter : PersonFilter
     {
-        private readonly PersonFilter _personFilter;
+        private readonly PersonFilter personFilter;
 
         public NotFilter(PersonFilter personFilter)
         {
-            _personFilter = personFilter;
+            this.personFilter = personFilter;
         }
         public override bool FilterPredicate(Person person)
         {
-            return !_personFilter.FilterPredicate(person);
+            return !personFilter.FilterPredicate(person);
         }
     }
 
     public class AndFilter : PersonFilter
     {
-        private readonly PersonFilter _personFilter1;
-        private readonly PersonFilter _personFilter2;
+        private readonly PersonFilter personFilter1;
+        private readonly PersonFilter personFilter2;
 
         public AndFilter(PersonFilter personFilter1, PersonFilter personFilter2)
         {
-            _personFilter1 = personFilter1;
-            _personFilter2 = personFilter2;
+            this.personFilter1 = personFilter1;
+            this.personFilter2 = personFilter2;
         }
         public override bool FilterPredicate(Person person)
         {
-            var result = _personFilter1.FilterPredicate(person) && _personFilter2.FilterPredicate(person);
+            var result = personFilter1.FilterPredicate(person) && personFilter2.FilterPredicate(person);
             return result;
         }
     }
 
     public class OrFilter : PersonFilter
     {
-        private readonly PersonFilter _personFilter1;
-        private readonly PersonFilter _personFilter2;
+        private readonly PersonFilter personFilter1;
+        private readonly PersonFilter personFilter2;
 
         public OrFilter(PersonFilter personFilter1, PersonFilter personFilter2)
         {
-            _personFilter1 = personFilter1;
-            _personFilter2 = personFilter2;
+            this.personFilter1 = personFilter1;
+            this.personFilter2 = personFilter2;
         }
         public override bool FilterPredicate(Person person)
         {
-            var result = _personFilter1.FilterPredicate(person) || _personFilter2.FilterPredicate(person);
+            var result = personFilter1.FilterPredicate(person) || personFilter2.FilterPredicate(person);
             return result;
         }
     }
 
     public class XOrFilter : PersonFilter
     {
-        private readonly PersonFilter _personFilter1;
-        private readonly PersonFilter _personFilter2;
+        private readonly PersonFilter personFilter1;
+        private readonly PersonFilter personFilter2;
 
         public XOrFilter(PersonFilter personFilter1, PersonFilter personFilter2)
         {
-            _personFilter1 = personFilter1;
-            _personFilter2 = personFilter2;
+            this.personFilter1 = personFilter1;
+            this.personFilter2 = personFilter2;
         }
         public override bool FilterPredicate(Person person)
         {
-            var result = _personFilter1.FilterPredicate(person) ^ _personFilter2.FilterPredicate(person);
+            var result = personFilter1.FilterPredicate(person) ^ personFilter2.FilterPredicate(person);
             return result;
         }
     }
 
     abstract class PassThroughFilter : PersonFilter
     {
+        public override bool FilterPredicate(Person person)
+        {
+            return true;
+        }
         public override List<Person> Filter(in List<Person> plist)
         {
             foreach (Person person in plist)

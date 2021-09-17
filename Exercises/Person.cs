@@ -32,6 +32,40 @@ namespace Exercises
                 LastName = names[1];
             }
         }
+        public int Age
+        {
+            get { return _age; }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException($"{nameof(value)} can't be below 0.");
+                }
+                _age = value;
+            }
+        }
+
+
+        public string LastName
+        {
+            get { return _lastName; }
+            set
+            {
+                if (value.Length <= 0) throw new ArgumentException($"{nameof(value)} is too short.");
+                _lastName = char.ToUpper(value[0]) + value[1..];
+            }
+        }
+
+
+        public string FirstName
+        {
+            get { return _firstName; }
+            set
+            {
+                if (value.Length <= 0) throw new ArgumentException($"{nameof(value)} is too short.");
+                _firstName = char.ToUpper(value[0]) + value[1..];
+            }
+        }
         // Exercise 1.2
         public Person(string firstName)
         {
@@ -67,42 +101,5 @@ namespace Exercises
             get => _mother;
             set => _mother = value;
         }
-
-
-        public int Age
-        {
-            get { return _age; }
-            set
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentException($"{nameof(value)} can't be below 0.");
-                }
-                _age = value;
-            }
-        }
-
-
-        public string LastName
-        {
-            get { return _lastName; }
-            set
-            {
-                if (value.Length <= 0) throw new ArgumentException($"{nameof(value)} is too short.");
-                _lastName = char.ToUpper(value[0]) + value[1..];
-            }
-        }
-
-
-        public string FirstName
-        {
-            get { return _firstName; }
-            set
-            {
-                if (value.Length <= 0) throw new ArgumentException($"{nameof(value)} is too short.");
-                _firstName = char.ToUpper(value[0]) + value[1..];
-            }
-        }
-
     }
 }
