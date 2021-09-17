@@ -76,10 +76,14 @@ namespace Exercises
         {
             if (Balance < 0)
             {
-                Balance -= (int)(Balance * BorrowingRate * 0.01M);
+                Balance += Balance * BorrowingRate / 100;
+            }
+            else
+            {
+                Balance += Balance * SavingsRate / 100;
             }
 
-            Balance += (int)(Balance * SavingsRate * 0.01M);
+
         }
     }
 }
